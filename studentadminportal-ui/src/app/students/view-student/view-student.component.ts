@@ -65,15 +65,29 @@ export class ViewStudentComponent implements OnInit{
   }
   onUpdate(): void{
     this.studentService.updateStudent(this.student.id,this.student)
-    .subscribe(
-      (successResponse)=>{
-        this.snacbar.open('Student update successfully',undefined,{
-          duration:2000
-        })
-      },
-      (errorResponse)=>{
+        .subscribe(
+          (successResponse)=>{
+            this.snacbar.open('Student update successfully',undefined,{
+              duration:2000
+            })
+          },
+          (errorResponse)=>{
 
-      },
-    );
+          },
+        );
+  }
+  onDelete(): void {
+    this.studentService.deleteStudent(this.student.id)
+        .subscribe(
+          (successResponse)=>{
+            console.log(successResponse);
+            this.snacbar.open('Student deleted successfully',undefined,{
+              duration:2000
+            })
+          },
+          (errorResponse)=>{
+
+          },
+        );
   }
 }
