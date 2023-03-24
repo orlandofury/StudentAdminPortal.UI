@@ -75,6 +75,5 @@ export class ViewStudentComponent implements OnInit{
 
       },
     );
-    //Call student service to pudate student
   }
 }
