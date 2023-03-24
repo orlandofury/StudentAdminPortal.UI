@@ -9,7 +9,7 @@
             <input matInput class="search-input"
             placeholder="Search Students"
              [(ngModel)]="filterString"
-             (keyup)="filterStudends()">
+             (keyup)="filterStudents()">
         </div>
         
     </div>
@@ -49,7 +49,16 @@
                 <mat-header-cell *matHeaderCellDef> Gender </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.gender.description}} </mat-cell>
             </ng-container>
-
+             <!-- Edit Column -->
+             <ng-container matColumnDef="edit">
+                <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                    <a [routerLink]="['/students',element.id]" routerLinkActive="router-link-active" >
+                        <mat-icon color="primary">edit</mat-icon>
+                    </a>
+                    
+                </mat-cell>
+            </ng-container>
         
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
