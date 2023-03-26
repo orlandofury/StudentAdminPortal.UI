@@ -32,6 +32,8 @@ export class ViewStudentComponent implements OnInit{
       postalAddress:''
     }
   }
+  isNewStudent = true; 
+  header = '';
   genderList: Gender[] = [];
   /**
    *
@@ -48,11 +50,22 @@ export class ViewStudentComponent implements OnInit{
       (params) =>{
         this.studentId = params.get('id');
         if(this.studentId){
-          this.studentService.getStudent(this.studentId).subscribe(
-            (successResponse) => {
-              this.student = successResponse;
-            }
-          );
+          if(this.studentId.toLowerCase() === "add"){
+            this.isNewStudent = true;
+            this.header = 'Add new student';
+          }
+          else{
+            this.isNewStudent = false;
+            this.header = 'Edit student';
+            this.studentService.getStudent(this.studentId).subscribe(
+              (successResponse) => {
+                this.student = successResponse;
+              }
+            );
+          }
+
+
+        
           this.genderService.getGenderList().subscribe(
             (successResponse) => {
               this.genderList = successResponse;
@@ -64,6 +77,7 @@ export class ViewStudentComponent implements OnInit{
 
     
   }
+ 
   onUpdate(): void{
     this.studentService.updateStudent(this.student.id,this.student)
         .subscribe(
@@ -87,11 +101,28 @@ export class ViewStudentComponent implements OnInit{
             });
             setTimeout(() => {
               this.router.navigateByUrl('students');
-            }, 200);
+            }, 2000);
           },
           (errorResponse)=>{
-
+            console.log(errorResponse);
           },
         );
+  }
+
+  onAdd(): void{
+    this.studentService.addStudent(this.student)
+    .subscribe(
+      (successResponse)=>{
+        this.snackbar.open('Student added successfully',undefined,{
+          duration:2000
+        });
+        setTimeout(() => {
+          this.router.navigateByUrl(`students/${successResponse.id}`);
+        }, 2000);
+      },
+      (errorResponse)=>{
+        console.log(errorResponse);
+      },
+    );
   }
 }
